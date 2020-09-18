@@ -8,11 +8,13 @@ const Drawer = createDrawerNavigator();
 
 import AppRoutes from './app.routes';
 import Settings from '../pages/Settings';
+import Pedidos from '../pages/Pedidos';
+import MeusPedidos from '../pages/MeusPedidos';
 
 
 export default function AppRoutesDrawer() {
 
-const {signOut} = useContext(AuthContext);
+const {signOut, user} = useContext(AuthContext);
 
   function handleLogout() {
     signOut()
@@ -40,6 +42,24 @@ const {signOut} = useContext(AuthContext);
         name='Perfil'
         component={Settings}
        />
+
+       {
+       user.uid == 'fHWUOE4j7SZc8FbOYUvBm3B13dt2' ? 
+       <Drawer.Screen
+       name='Pedidos'
+       component={Pedidos}
+      />
+      :
+      null}
+
+      {
+       user.uid != 'fHWUOE4j7SZc8FbOYUvBm3B13dt2' ? 
+       <Drawer.Screen
+       name='Meus Pedidos'
+       component={MeusPedidos}
+      />
+      :
+      null}
         
    </Drawer.Navigator>
   );

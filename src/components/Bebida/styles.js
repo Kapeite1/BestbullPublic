@@ -9,6 +9,7 @@ export const Container = styled.View`
     margin: 0 8px 15px 8px;
     align-items: center;
     elevation: 5px;
+    
 
 `;
 
@@ -18,9 +19,13 @@ export const Foto = styled.View`
     margin-left: 10px;
     border-radius: 5px;
 `;
-export const Imagem = styled.Image`
-    height: 100%;
-    width: 100%;
+export const Imagem = styled.Image.attrs({
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode: 'contain'
+})`
+  
 `;
 
 export const Informações = styled.View`
@@ -41,12 +46,13 @@ export const Ingredientes = styled.Text`
 
 export const Preco = styled.TouchableOpacity`
     align-items: center;
-    width: 70px;
+    width: 30%;
+    
 `;
 
 export const Valor = styled.Text`
     margin-bottom: 7px;
-    font-size: 19px;
+    font-size: 17px;
     font-weight: bold;
 `;
 

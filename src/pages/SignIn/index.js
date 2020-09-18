@@ -25,7 +25,7 @@ export default function SignIn() {
       <BrandImg source={require('../../assets/logo.png')}/>
 
       <BrandText>
-        Esquina do Açai
+        Best Bull
       </BrandText>
     
       <AreaInput>

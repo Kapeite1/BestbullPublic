@@ -35,12 +35,12 @@ export const AreaInput = styled.View`
 `;
 
 export const Input = styled.TextInput.attrs({
-    placeholderTextColor: '#fff'
+    placeholderTextColor: 'black'
 })`
-    background: #85C227;
+    background: orange;
     width: 90%;
     font-size: 17px;
-    color: #fff;
+    color: black;
     margin-bottom: 15px;
 
     border-radius: 7px;

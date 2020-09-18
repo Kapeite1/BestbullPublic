@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, SafeAreaView, FlatList, StyleSheet, StatusBar } from 'react-native';
+import firebase from '../../services/firebaseConnection';
 
 import { Container, List } from './styles';
 import Header from '../../components/Header';
@@ -7,48 +8,36 @@ import Hamburguer from '../../components/Hamburguer';
 
 export default function Sanduiches() {
 
-  const [hamburguer, setHamburguer] = useState([
-    {
-      id: '1',
-      nome: 'x-tudo',
-      ingredientes: 'Pão, 2 carnes, ovos, bacon, frango, queijo, presunto, alface e tomate.',
-      valor: '9,90'
-    },
-    {
-      id: '2',
-      nome: 'x-frango',
-      ingredientes: 'Pão, 2 carnes, ovos, bacon, frango, queijo, presunto, alface e tomate.',
-      valor: '5,50'
-    },
-    {
-      id: '3',
-      nome: 'x-bacon',
-      ingredientes: 'Pão, 2 carnes, ovos, bacon, frango, queijo, presunto, alface e tomate.',
-      valor: '4,50'
-    },
-    {
-      id: '4',
-      nome: 'x-bacon',
-      ingredientes: 'Pão, 2 carnes, ovos, bacon, frango, queijo, presunto, alface e tomate.',
-      valor: '4,50'
-    },
-    {
-      id: '5',
-      nome: 'x-bacon',
-      ingredientes: 'Pão, 2 carnes, ovos, bacon, frango, queijo, presunto, alface e tomate.',
-      valor: '4,50'
-    },
-    {
-      id: '6',
-      nome: 'x-bacon',
-      ingredientes: 'Pão, 2 carnes, ovos, bacon, frango, queijo, presunto, alface e tomate.',
-      valor: '4,50'
+  const [hamburguer, setHamburguer] = useState([]);
+
+
+  useEffect(() => {
+    
+
+    async function loadList() {
+      await firebase.database().ref('Produtos').child('Hamburguer').once('value', (snapshot) => {
+        setHamburguer([]);
+
+        snapshot.forEach((childItem) => {
+          
+          let list = {
+            key: childItem.key,
+            nome: childItem.val().nome,
+            valor: childItem.val().valor,
+            ingredientes: childItem.val().ingredientes,          
+          };
+
+          setHamburguer(oldArray => [...oldArray, list])
+        })
+      })
     }
-  ])
+    
+    loadList();
+  }, [])
 
  return (
    <Container>
-     <Header/>
+     <Header name = 'Sanduiches'/>
      <List
       showsVerticalScrollIndicator={false}
       data={hamburguer}

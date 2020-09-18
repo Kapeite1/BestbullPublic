@@ -11,6 +11,7 @@ export default function SignUp() {
   const navigation = useNavigation(); //instanciando o navigation para funcionar.
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confPassword, setConfPassword] = useState('');
   const [street, setStreet] = useState('');
@@ -20,9 +21,9 @@ export default function SignUp() {
 
   const { signUp, loadingAuth } = useContext(AuthContext);
   
-  //quando crliar no cadastrar entra nessa funcao
+  //quando clicar no cadastrar entra nessa funcao
   function handleSignUp(){
-    signUp(name, email, password, street, number, neighborhood, reference);
+    signUp(name, email, phone, password, street, number, neighborhood, reference);
   }
 
 
@@ -31,7 +32,7 @@ export default function SignUp() {
     <Container>
       <Header>
 
-        <BrandImg source={require('../../assets/logo.png')}/>
+        <BrandImg source={require('../../assets/logo2.png')}/>
 
         <Title>
           Cadastro
@@ -57,6 +58,15 @@ export default function SignUp() {
           autoCapitalize='none'
           value={email}
           onChangeText={(text) => setEmail(text)}
+          keyboardType= 'email-address'
+          />
+
+          <Input 
+          placeholder='Nº Celular'
+          autoCorrect={false}
+          autoCapitalize='none'
+          value={phone}
+          onChangeText={(text) => setPhone(text)}
           keyboardType= 'numeric'
           />
 

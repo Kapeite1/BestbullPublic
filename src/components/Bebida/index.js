@@ -1,24 +1,28 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Icon from 'react-native-vector-icons/Feather';
-import { useNavigation } from '@react-navigation/native';
 import { Container, Foto, Imagem, Informações, Name, Ingredientes, Preco, Valor, Comprar} from './styles';
 import firebase from '../../services/firebaseConnection';
+import { AuthContext } from '../../contexts/auth';
 
+export default function Bebida( { data, handleModal }) {
 
-export default function Hamburguer( { data }) {
+  const {addCart} = useContext(AuthContext);
 
-    const navigation = useNavigation();
     const [url, setUrl] = useState('');
 
     useEffect(() => {
         async function getPhoto(data) { 
-          await firebase.storage().ref('Hamburguer').child(data.nome+'.jpg').getDownloadURL().then((url) => {
+          await firebase.storage().ref('Bebidas').child(data.nome+'.jpg').getDownloadURL().then((url) => {
             setUrl(url);
           });
         }
         getPhoto(data);
       }, [])
 
+    function pressShop(){
+      addCart(data.nome, data.valor, data.informacao)
+      handleModal()
+    }
  return (
    <Container>
         <Foto>
@@ -29,9 +33,9 @@ export default function Hamburguer( { data }) {
         
         <Informações>
             <Name>{data.nome}</Name>
-            <Ingredientes>{data.ingredientes}</Ingredientes>
+            <Ingredientes>{data.informacao}</Ingredientes>
         </Informações>
-        <Preco onPress={() => navigation.push('CarrinhoHamb', { data })}>
+        <Preco onPress={() => pressShop()}>
             <Valor>
                  R$ {data.valor}
             </Valor>

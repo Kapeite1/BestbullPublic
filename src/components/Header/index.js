@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Container } from './styles';
 import Icon from 'react-native-vector-icons/Feather';
 
 import { useNavigation } from '@react-navigation/native';
 
 import {AuthContext} from '../../contexts/auth';
 
+import { Container, Logo, Tittle } from './styles';
 
 export default function Header(props) {
 
@@ -20,9 +20,10 @@ export default function Header(props) {
  return (
     <Container>
         <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-          <Icon name='menu' color='#000' size={30} />
+          <Icon name='menu' color='black' size={35} />
         </TouchableOpacity>
-        <Text style={{ color: 'green'}}> {props.name}</Text>
+        <Tittle> {props.name}</Tittle>
+        <Logo source={require('../../assets/logo.png')}/>
     </Container>
   );
 }

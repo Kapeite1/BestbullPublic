@@ -3,13 +3,13 @@ import firebase from '../../services/firebaseConnection';
 import { AuthContext } from '../../contexts/auth';
 import { View, Text } from 'react-native';
 
-export default function Settings() {
+export default function Pedidos() {
 
-  const { signed, user } = useContext(AuthContext);
+
 
  return (
    <View>
-       <Text>{user.name}</Text>
+       <Text>Todos os pedidos</Text>
    </View>
   );
 }

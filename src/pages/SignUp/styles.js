@@ -12,13 +12,11 @@ export const Container = styled.View`
 `;
 
 export const Header = styled.View`
-    
     flex-direction: row;
-    height: 100px;
+    height: 80px;
     width: 100%;
     align-items: center;
     justify-content: center;
-    padding: 20px 0 10px 0;
     margin-bottom: 15px;
 `;
 
@@ -34,11 +32,11 @@ export const Title = styled.Text`
 
 export const Formulario = styled.ScrollView `
     width: 100%;
-    padding: 20px;
+    padding: 0 15px;
 `;
 
 export const Input = styled.TextInput.attrs({
-    placeholderTextColor: '#85C227',
+    placeholderTextColor: 'gray',
     multiline: true
 })`
     background-color: white;
@@ -48,7 +46,7 @@ export const Input = styled.TextInput.attrs({
 `;
 
 export const InputHalf = styled.TextInput.attrs({
-    placeholderTextColor: '#85C227'
+    placeholderTextColor: 'gray'
 })`
     flex-direction: row;
     background-color: white;
@@ -59,7 +57,7 @@ export const InputHalf = styled.TextInput.attrs({
 `;
 
 export const ButtonRegister = styled.TouchableOpacity`
-    background-color: #85c227;
+    background-color: orange;
     border-radius: 8px;
     width: 70%;
     height: 50px;
@@ -71,6 +69,7 @@ export const ButtonRegister = styled.TouchableOpacity`
 export const ButtonRegisterText = styled.Text`
     color: white;
     font-size: 23px;
+    font-weight: bold;
 `;
 
 export const Link = styled.TouchableOpacity`
