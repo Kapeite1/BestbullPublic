@@ -1,4 +1,4 @@
-package com.esquinadoacai;
+package com.bestbull;
 
 import com.facebook.react.ReactActivity;
 

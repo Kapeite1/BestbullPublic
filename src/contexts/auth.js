@@ -93,8 +93,12 @@ function AuthProvider({ children }){
                 let data = {
                     uid: uid,
                     name: snapshot.val().name,
-                    email: value.user.email,
-                    phone: value.user.phone
+                    email: snapshot.val().email,
+                    phone: snapshot.val().phone,
+                    neighborhood: snapshot.val().neighborhood,
+                    number: snapshot.val().number,
+                    street: snapshot.val().street,
+                    reference: snapshot.val().reference
                 };
                 setUser(data);
                 storageUser(data);
@@ -127,6 +131,10 @@ function AuthProvider({ children }){
                 let data = {
                     uid: uid,
                     name: name,
+                    street: street,
+                    number: number,
+                    neighborhood: neighborhood,
+                    reference: reference,
                     email: email,
                     phone: phone
                 };
