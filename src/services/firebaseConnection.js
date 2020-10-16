@@ -4,14 +4,14 @@ import 'firebase/database';
 import 'firebase/storage';
 
 let firebaseConfig = {
-    apiKey: "AIzaSyA5svnun6qe0lzzyVA06_xeJ5TINxmON1Y",
-    authDomain: "esquina-do-acai.firebaseapp.com",
-    databaseURL: "https://esquina-do-acai.firebaseio.com",
-    projectId: "esquina-do-acai",
-    storageBucket: "esquina-do-acai.appspot.com",
-    messagingSenderId: "933176906605",
-    appId: "1:933176906605:web:55a1a5403e74a0d3ca0064",
-    measurementId: "G-NV6H0RQZXQ"
+    apiKey: "**",
+    authDomain: "**",
+    databaseURL: "**",
+    projectId: "**",
+    storageBucket: "**",
+    messagingSenderId: "**",
+    appId: "**",
+    measurementId: "**"
   };
 
 if(!firebase.apps.length){
