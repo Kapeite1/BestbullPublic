@@ -1,15 +1,10 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
-    height: 100px;
-    padding: 6px;
+export const Container = styled.View`    
     background-color: white;
-    flex-direction: row;
     border-radius: 10px;
     margin: 0 8px 15px 8px;
-    align-items: center;
     elevation: 5px;
-
 `;
 
 export const Foto = styled.View`
@@ -39,7 +34,7 @@ export const Ingredientes = styled.Text`
     
 `;
 
-export const Preco = styled.TouchableOpacity`
+export const Preco = styled.View`
     align-items: center;
     width: 70px;
 `;

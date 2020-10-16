@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, SafeAreaView, FlatList, StyleSheet, StatusBar, Modal } from 'react-native';
+import { View, ActivityIndicator, Modal } from 'react-native';
 import firebase from '../../services/firebaseConnection';
 
 import { Container, List, ContainerModal, ModalView, TextModal } from './styles';
@@ -10,6 +10,7 @@ export default function Bebidas() {
 
   const [bebida, setBebida] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [ loading, setLoading] = useState(false)
 
   useEffect(() => {
     async function loadList() {
@@ -28,7 +29,9 @@ export default function Bebidas() {
           
         })
       })
+      setLoading(true)
     }
+    setLoading(false)
     loadList()
   }, [])
 
@@ -58,12 +61,18 @@ export default function Bebidas() {
           </ModalView>
         </ContainerModal>
      </Modal>
-     <List
-      showsVerticalScrollIndicator={false}
-      data={bebida}
-      keyExtractor={ item => item.id }
-      renderItem={ ({item}) => ( <Bebida data={item} handleModal={handleModal} /> ) }
-    />
+     {loading ? 
+      <List
+        showsVerticalScrollIndicator={false}
+        data={bebida}
+        keyExtractor={ item => item.id }
+        renderItem={ ({item}) => ( <Bebida data={item} handleModal={handleModal} /> ) }
+      /> 
+      :
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size={40} color='orange'/>   
+      </View>
+    }
    </Container>
   );
 }

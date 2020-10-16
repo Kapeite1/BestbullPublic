@@ -34,7 +34,6 @@ function AuthProvider({ children }){
     }, []);
 
     function handleAcao(){
-        console.log('foi')
         setAcao(!acao)
     }
     //adicionando um item no carrinho

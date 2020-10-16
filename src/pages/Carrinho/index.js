@@ -1,6 +1,7 @@
 import React, {useState, useContext, useEffect} from 'react';
-import { View, Text, TextInput, CheckBox, ScrollView, Keyboard, Modal, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, ScrollView, CheckBox, Keyboard, Modal, ActivityIndicator } from 'react-native';
 import { AuthContext } from '../../contexts/auth';
+import { format } from 'date-fns';
 import AsyncStorage from '@react-native-community/async-storage';
 import Header from '../../components/Header';
 import Produto from '../../components/ItemCarrinho';
@@ -18,6 +19,7 @@ export default function Carrinho() {
   const [modalVisible, setModalVisible] = useState(false)
   const [selectModal, setSelectModal] =  useState(true)
   const [selectModalText, setSelectModalText] =  useState(false)
+  const [formaDePagamento, setFormaDePagamento] =  useState(false)
   const [options, setOptions] = useState([{
     key: 1,
     title: 'Dinheiro',
@@ -31,18 +33,29 @@ export default function Carrinho() {
     disabled: false
   }]);
   
-  function handleChange(e, nome){
+  function AllCheckFalse () {
     let newMarkers = options.map(el => (
-      el.title === nome ? {...el, checked: e} : {...el, disabled: e}
+      {...el, checked: false}
     ))
     setOptions(newMarkers);
+    setFormaDePagamento(!formaDePagamento);
+  }
+
+  function handleChange(e, nome){
+    let newMarkers = options.map(el => (
+      el.title === nome ? {...el, checked: e} : {...el, checked: false}
+    ))
+    if (nome === 'Cartão' && troco === ''){
+      setTroco(nome)
+    } else {
+      setTroco('')
+    }
+    setOptions(newMarkers);
+    setFormaDePagamento(!formaDePagamento);
   }
 
   async function finalizarPedido(){
     setSelectModal(false)
-    let date = new Date().getDate();
-    let month = new Date().getMonth() + 1;
-    
     let dataUser = await AsyncStorage.getItem('Auth_user');
     dataUser = JSON.parse(dataUser)
     let keyAdm = await firebase.database().ref('users').child(uidAdm).push().key;
@@ -50,28 +63,42 @@ export default function Carrinho() {
     let pedido = await AsyncStorage.getItem('@Pedido')
     pedido = JSON.parse(pedido)
     Keyboard.dismiss()
-    if (pedido.length > 0) {
-      await firebase.database().ref('users').child(dataUser.uid).child('pedidos').child(keyUser).child('dados').set({
-        total: totalf,
-        data: date.toString() + '/' + month.toString(),
-        troco: troco,
-        estado: 'enviado'
-      })
+    if (pedido.length > 0 && formaDePagamento) {
       pedido.map( async (item) => (
         await firebase.database().ref('users').child(dataUser.uid).child('pedidos').child(keyUser).push().set({
           nome: item.nome,
           valor: item.valor,
-          informacao: item.informacao
+          informacao: item.informacao,
+          total: totalf,
+          data: format(new Date(), 'dd/MM/yyyy'),
+          troco: troco,
+          estado: 'confirmado'
         })
       ))
-      await firebase.database().ref('users').child(uidAdm).child('pedidos').child(keyAdm).set({
-        uid: dataUser.uid,
-        uidPedido: keyUser
-      })  
+      pedido.map( async (item) => (
+        await firebase.database().ref('users').child(uidAdm).child('pedidos').child(keyAdm).push().set({
+          uidPedido: keyUser,
+          uidCliente: dataUser.uid,
+          nome: item.nome,
+          valor: item.valor,
+          informacao: item.informacao,
+          total: totalf,
+          data: format(new Date(), 'dd/MM/yyyy'),
+          troco: troco,
+          estado: 'confirmado',
+          cliente: dataUser.name,
+          rua: dataUser.street,
+          numero: dataUser.number,
+          referencia: dataUser.reference,
+          telefone: dataUser.phone,
+          bairro: dataUser.neighborhood
+        })
+      ))  
       try {
         await AsyncStorage.removeItem('@Pedido');
         deletList()
-        setTroco(0)
+        setTroco('')
+        AllCheckFalse()
         setSelectModalText(true)
         hideModal()
         return true;
@@ -80,12 +107,23 @@ export default function Carrinho() {
         return false;
     }
 
-    } else {
+    } else if (pedido.length <= 0) {
       alert('Seu Carrinho está Vazio!')
-      setModalVisible(!modalVisible)
+      setModalVisible(false)
+      setSelectModal(true)
+      setSelectModalText(false)
+      return;
+
+    } else {
+      alert('Por favor, selecione uma forma de pagamento.')
+      setModalVisible(false)
+      setSelectModal(true)
+      setSelectModalText(false)
+      return;
     }
 
   }
+
 
   function calculandoValor() {
     //console.log('calculando')
@@ -199,7 +237,6 @@ export default function Carrinho() {
             key={item.key}
             value={item.checked}
             onValueChange={(changed) => handleChange(changed, item.title)}
-            disabled={item.disabled}
             />
             <Text style={{color: 'black', fontSize: 16}}>{item.title}</Text>
           </Opcoes>
@@ -211,7 +248,7 @@ export default function Carrinho() {
         placeholder='50,00'
         autoCorrect={false}
         autoCapitalize='none'
-        value={troco}
+        value={troco.toString()}
         onChangeText={(text) => setTroco(text)}
         keyboardType= {"number-pad"}
         />

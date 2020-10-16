@@ -52,14 +52,14 @@ const {signOut, user} = useContext(AuthContext);
       :
       null}
 
-      {
-       user.uid != 'fHWUOE4j7SZc8FbOYUvBm3B13dt2' ? 
-       <Drawer.Screen
+{
+       user.uid == 'fHWUOE4j7SZc8FbOYUvBm3B13dt2' ? 
+       null
+      :
+      <Drawer.Screen
        name='Meus Pedidos'
        component={MeusPedidos}
-      />
-      :
-      null}
+      />}
         
    </Drawer.Navigator>
   );

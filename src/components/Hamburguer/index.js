@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import { Container, Foto, Imagem, Informações, Name, Ingredientes, Preco, Valor, Comprar} from './styles';
 import firebase from '../../services/firebaseConnection';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 export default function Hamburguer( { data }) {
@@ -21,7 +22,12 @@ export default function Hamburguer( { data }) {
 
  return (
    <Container>
-        <Foto>
+     
+     <TouchableOpacity
+     style={{flexDirection: 'row', alignItems: 'center', height: 100, alignSelf: 'stretch', padding: 6}}
+     onPress={() => navigation.push('CarrinhoHamb', { data })}
+     >
+     <Foto>
             <Imagem source={{
           uri: url
         }}/>
@@ -31,7 +37,7 @@ export default function Hamburguer( { data }) {
             <Name>{data.nome}</Name>
             <Ingredientes>{data.ingredientes}</Ingredientes>
         </Informações>
-        <Preco onPress={() => navigation.push('CarrinhoHamb', { data })}>
+        <Preco>
             <Valor>
                  R$ {data.valor}
             </Valor>
@@ -39,6 +45,8 @@ export default function Hamburguer( { data }) {
                 <Icon name='shopping-cart' color='black' size={30}/>
             </Comprar>
         </Preco>
+     </TouchableOpacity>
+        
    
    </Container>
   );

@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { View, Text, Keyboard } from 'react-native';
+import { View, Text, Keyboard, Modal } from 'react-native';
 import firebase from '../../services/firebaseConnection';
 import { AuthContext } from '../../contexts/auth';
 
@@ -7,7 +7,7 @@ import Header from '../../components/Header';
 import MontandoHamburguer from '../../components/MontandoHamburguer';
 import AdicionalHamburguer from '../../components/AdicionalHamburguer';
 
-import { DismissKeyboard, Container, Adicionais, Title, List, Observacoes, Input, Botoes, Confirmar, Cancelar  } from './styles.js'
+import { DismissKeyboard, Container, Adicionais, Title, List, Observacoes, Input, Botoes, Confirmar, Cancelar, ContainerModal, ModalView, TextModal  } from './styles.js'
 
 export default function CarrinhoHamburguer({ route, navigation }) {
 
@@ -17,6 +17,7 @@ export default function CarrinhoHamburguer({ route, navigation }) {
   const [observacao, setObservacao] = useState('')
   const [valor, setValor] = useState(data.valor)
   const [adicinaisSelecionados, setAdicionaisSelecionados] = useState(new Map())
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     
@@ -66,24 +67,51 @@ export default function CarrinhoHamburguer({ route, navigation }) {
     info += 'Obs.: ' + observacao
 
     addCart(data.nome, valor, info)
+    
     navigation.popToTop()
+    handleModal()
+  }
+
+  function hideModal(){
+    setTimeout(
+      function (){
+        setModalVisible(false)
+      }, 1000)
+  }
+
+  function handleModal(){
+    setModalVisible(true)
+    hideModal()
   }
 
  return (
     <DismissKeyboard onPress={() => Keyboard.dismiss()}>
-      <Container>
+      <Container >
+      <Modal
+      animationType="fade"
+      transparent={true}
+      visible={modalVisible}
+     >
+        <ContainerModal>
+          <ModalView>
+            <TextModal>Produto Adicionado</TextModal>
+          </ModalView>
+        </ContainerModal>
+     </Modal>
       <Header name='Sanduiches'/>
       <MontandoHamburguer data={data} valor={valor}/>
+      <View style={{flex: 1}} onStartShouldSetResponder={() => true}>
+        <Adicionais >
+          <Title>Adicionais</Title>
+          <List
+            showsVerticalScrollIndicator={false}
+            data={adicionais}
+            keyExtractor={ item => item.id }
+            renderItem={ ({item}) => ( <AdicionalHamburguer data={item} funcaoSoma={AumentarValor} funcaoSubtrair={DiminuirValor} /> ) }
+          />
+        </Adicionais>
+      </View>
       
-      <Adicionais>
-        <Title>Adicionais</Title>
-        <List
-          showsVerticalScrollIndicator={false}
-          data={adicionais}
-          keyExtractor={ item => item.id }
-          renderItem={ ({item}) => ( <AdicionalHamburguer data={item} funcaoSoma={AumentarValor} funcaoSubtrair={DiminuirValor} /> ) }
-        />
-      </Adicionais>
 
       <Observacoes>
         <Title>Observações</Title>

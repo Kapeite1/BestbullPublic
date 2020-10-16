@@ -23,7 +23,21 @@ export default function SignUp() {
   
   //quando clicar no cadastrar entra nessa funcao
   function handleSignUp(){
-    signUp(name, email, phone, password, street, number, neighborhood, reference);
+    if ( name.length == "" || street.length == "" || email.length == "" || phone.length == "" || password.length == "" || confPassword.length == "" || number.length == "" || neighborhood.length == "" || reference.length == ""){
+      alert('Todos os campos tem que ser preenchidos!')
+      return;
+    } else if (email.indexOf('@') === -1) {
+      alert('Preencher um email válido')
+      return;
+    } else if ( password != confPassword) {
+      alert('Senhas precisam ser idênticas. ')
+      return;
+    } else if (password.length <=3){
+      alert('Sua senha deve ter no mínimo 4 caracteres!')
+      return;
+    } else {
+      signUp(name, email, phone, password.toLowerCase(), street, number, neighborhood, reference);
+    }
   }
 
 

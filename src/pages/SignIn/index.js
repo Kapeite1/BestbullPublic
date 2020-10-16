@@ -15,7 +15,7 @@ export default function SignIn() {
   const {signIn} = useContext(AuthContext);
 
   function handleSignIn(){
-    signIn(email, password)
+    signIn(email, password.toLowerCase())
   }
 
  return (

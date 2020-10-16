@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, SafeAreaView, FlatList, StyleSheet, StatusBar } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import firebase from '../../services/firebaseConnection';
 
 import { Container, List } from './styles';
@@ -9,6 +9,7 @@ import Hamburguer from '../../components/Hamburguer';
 export default function Sanduiches() {
 
   const [hamburguer, setHamburguer] = useState([]);
+  const [ loading, setLoading] = useState(false)
 
 
   useEffect(() => {
@@ -30,20 +31,27 @@ export default function Sanduiches() {
           setHamburguer(oldArray => [...oldArray, list])
         })
       })
+      setLoading(true)
     }
-    
+    setLoading(false)
     loadList();
   }, [])
 
  return (
    <Container>
      <Header name = 'Sanduiches'/>
+     {loading ? 
      <List
-      showsVerticalScrollIndicator={false}
-      data={hamburguer}
-      keyExtractor={ item => item.id }
-      renderItem={ ({item}) => ( <Hamburguer data={item} /> ) }
-    />
+     showsVerticalScrollIndicator={false}
+     data={hamburguer}
+     keyExtractor={ item => item.id }
+     renderItem={ ({item}) => ( <Hamburguer data={item} /> ) }
+   /> :
+   
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <ActivityIndicator size={40} color='orange'/>   
+    </View>
+  }
    </Container>
   );
 }

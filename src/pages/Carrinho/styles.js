@@ -6,6 +6,7 @@ export const Container = styled.View`
 
 export const Container1 = styled.ScrollView`
    height: 75%;
+   
 `;
 
 export const Container2 = styled.View`
@@ -15,6 +16,7 @@ export const Container2 = styled.View`
     elevation: 5px;
     margin-bottom: 15px;
     padding: 10px 15px;
+    
 `;
 
 export const Opcoes = styled.View`
@@ -24,7 +26,7 @@ export const Opcoes = styled.View`
 `;
 
 export const AreaButton = styled.View`
-    flex: 1;
+    
     justify-content: flex-end;
 `;
 
